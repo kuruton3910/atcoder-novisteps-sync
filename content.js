@@ -35,9 +35,9 @@
     ];
   }
 
-  async function fetchAcceptedProblemIds(userId) {
+  async function fetchAcceptedProblemIds(userId, fromSecond) {
     const response = await fetch(
-      `${ATCODER_SUBMISSIONS_API}?user=${encodeURIComponent(userId)}&from_second=0`,
+      `${ATCODER_SUBMISSIONS_API}?user=${encodeURIComponent(userId)}&from_second=${fromSecond}`,
     );
 
     if (!response.ok) {
@@ -45,7 +45,45 @@
     }
 
     const submissions = await response.json();
-    return getAcceptedProblemIds(submissions);
+
+    const maxEpochSecond = submissions.reduce(
+      (max, item) => Math.max(max, item.epoch_second),
+      0,
+    );
+
+    return {
+      acceptedProblemIds: getAcceptedProblemIds(submissions),
+      submissionsCount: submissions.length,
+      nextFromSecond: maxEpochSecond,
+    };
+  }
+
+  async function fetchAcceptedAllProblemIds(userId) {
+    const acceptedAllProblemIds = new Set();
+    let fromSecond = 0;
+
+    while (true) {
+      const {
+        acceptedProblemIds,
+        submissionsCount,
+        nextFromSecond,
+      } = await fetchAcceptedProblemIds(userId, fromSecond);
+
+      acceptedProblemIds.forEach((id) => acceptedAllProblemIds.add(id));
+
+      if (submissionsCount === 0) {
+        break;
+      }
+
+      if (nextFromSecond < fromSecond) {
+        throw new Error("Unexpected submissions order from Problems API");
+      }
+
+      fromSecond = nextFromSecond + 1; // 次のリクエストでは前回の最終秒数の次から取得する
+      await wait(getSyncDelayMs());
+    }
+
+    return [...acceptedAllProblemIds];
   }
 
   async function syncProblem(problemId) {
@@ -189,7 +227,7 @@
       setBusy("確認中…");
 
       try {
-        const allAcIds = await fetchAcceptedProblemIds(USER_ID);
+        const allAcIds = await fetchAcceptedAllProblemIds(USER_ID);
 
         const syncedIds = getSyncedIds();
         const tasksToSync = allAcIds.filter((id) => !syncedIds.has(id));
