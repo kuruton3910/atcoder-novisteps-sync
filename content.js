@@ -5,7 +5,7 @@
   const STORAGE_KEY = `synced_ids_${USER_ID}`;
   const SYNC_RESULT_KEY = "sync_result";
   const TOAST_DURATION_MS = 4000;
-  const TOAST_FADE_DURATION_MS = 250;_MS, 
+  const TOAST_FADE_DURATION_MS = 250;
   const TOAST_RELOAD_DELAY_MS = 500;
   const ATCODER_REQUEST_DELAY_BASE_MS = 1100;
   const ATCODER_REQUEST_DELAY_JITTER_MS = 100;
