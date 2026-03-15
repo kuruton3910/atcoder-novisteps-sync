@@ -5,18 +5,28 @@
   const STORAGE_KEY = `synced_ids_${USER_ID}`;
   const SYNC_RESULT_KEY = "sync_result";
   const TOAST_DURATION_MS = 4000;
-  const TOAST_FADE_DURATION_MS = 250;
+  const TOAST_FADE_DURATION_MS = 250;_MS, 
   const TOAST_RELOAD_DELAY_MS = 500;
-  const REQUEST_DELAY_BASE_MS = 1000;
-  const REQUEST_DELAY_JITTER_MS = 500;
+  const ATCODER_REQUEST_DELAY_BASE_MS = 1100;
+  const ATCODER_REQUEST_DELAY_JITTER_MS = 100;
+  const NOVISTEPS_REQUEST_DELAY_BASE_MS = 1000;
+  const NOVISTEPS_REQUEST_DELAY_JITTER_MS = 500;
   const PROBLEMS_UPDATE_PATH = "/problems?/update";
   const ATCODER_SUBMISSIONS_API =
     "https://kenkoooo.com/atcoder/atcoder-api/v3/user/submissions";
 
   const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-  const getSyncDelayMs = () =>
-    REQUEST_DELAY_BASE_MS + Math.random() * REQUEST_DELAY_JITTER_MS;
+  const getDelayMs = (baseMs, jitterMs) => baseMs + Math.random() * jitterMs;
+
+  const getAtCoderDelayMs = () =>
+    getDelayMs(ATCODER_REQUEST_DELAY_BASEATCODER_REQUEST_DELAY_JITTER_MS);
+
+  const getNoviStepsDelayMs = () =>
+    getDelayMs(
+      NOVISTEPS_REQUEST_DELAY_BASE_MS,
+      NOVISTEPS_REQUEST_DELAY_JITTER_MS,
+    );
 
   function createSyncRequestBody(problemId) {
     const formData = new FormData();
@@ -63,11 +73,8 @@
     let fromSecond = 0;
 
     while (true) {
-      const {
-        acceptedProblemIds,
-        submissionsCount,
-        nextFromSecond,
-      } = await fetchAcceptedProblemIds(userId, fromSecond);
+      const { acceptedProblemIds, submissionsCount, nextFromSecond } =
+        await fetchAcceptedProblemIds(userId, fromSecond);
 
       acceptedProblemIds.forEach((id) => acceptedAllProblemIds.add(id));
 
@@ -80,7 +87,7 @@
       }
 
       fromSecond = nextFromSecond + 1; // 次のリクエストでは前回の最終秒数の次から取得する
-      await wait(getSyncDelayMs());
+      await wait(getAtCoderDelayMs());
     }
 
     return [...acceptedAllProblemIds];
@@ -259,7 +266,7 @@
           const pct = Math.round(((i + 1) / tasksToSync.length) * 100);
           label.textContent = `同期中… ${i + 1} / ${tasksToSync.length}`;
           progress.style.width = `${pct}%`;
-          await wait(getSyncDelayMs());
+          await wait(getNoviStepsDelayMs());
         }
 
         saveSyncedIds(syncedIds);
