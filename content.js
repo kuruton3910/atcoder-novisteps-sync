@@ -5,12 +5,12 @@
   const STORAGE_KEY = `synced_ids_${USER_ID}`;
   const SYNC_RESULT_KEY = "sync_result";
   const TOAST_DURATION_MS = 4000;
-  const TOAST_FADE_DURATION_MS = 250;
+  const TOAST_FADE_DURATION_MS = 250;_MS, 
   const TOAST_RELOAD_DELAY_MS = 500;
   const ATCODER_REQUEST_DELAY_BASE_MS = 1100;
   const ATCODER_REQUEST_DELAY_JITTER_MS = 100;
-  const NOVISTEPS_REQUEST_DELAY_BASE_MS = 250;
-  const NOVISTEPS_REQUEST_DELAY_JITTER_MS = 100;
+  const NOVISTEPS_REQUEST_DELAY_BASE_MS = 1000;
+  const NOVISTEPS_REQUEST_DELAY_JITTER_MS = 500;
   const PROBLEMS_UPDATE_PATH = "/problems?/update";
   const ATCODER_SUBMISSIONS_API =
     "https://kenkoooo.com/atcoder/atcoder-api/v3/user/submissions";
@@ -20,7 +20,7 @@
   const getDelayMs = (baseMs, jitterMs) => baseMs + Math.random() * jitterMs;
 
   const getAtCoderDelayMs = () =>
-    getDelayMs(ATCODER_REQUEST_DELAY_BASE_MS, ATCODER_REQUEST_DELAY_JITTER_MS);
+    getDelayMs(ATCODER_REQUEST_DELAY_BASEATCODER_REQUEST_DELAY_JITTER_MS);
 
   const getNoviStepsDelayMs = () =>
     getDelayMs(
