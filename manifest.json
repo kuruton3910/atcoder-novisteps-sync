@@ -5,6 +5,7 @@
   "content_scripts": [
     {
       "matches": [
+        "https://atcoder-novisteps.vercel.app/",
         "https://atcoder-novisteps.vercel.app/workbooks/*",
         "https://atcoder-novisteps.vercel.app/problems*"
       ],
