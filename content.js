@@ -1,7 +1,7 @@
 (async function () {
   "use strict";
 
-  const USER_ID = "krton"; // ここに AtCoder ID を入力
+  const USER_ID = ""; // ここに AtCoder ID を入力
   const STORAGE_KEY = `synced_ids_${USER_ID}`;
   const SYNC_RESULT_KEY = "sync_result";
   const TOAST_DURATION_MS = 4000;
