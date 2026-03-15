@@ -1,7 +1,7 @@
 (async function () {
   "use strict";
 
-  const USER_ID = ""; // ここに AtCoder ID を入力
+  const USER_ID = "krton"; // ここに AtCoder ID を入力
   const STORAGE_KEY = `synced_ids_${USER_ID}`;
   const SYNC_RESULT_KEY = "sync_result";
   const TOAST_DURATION_MS = 4000;
@@ -20,7 +20,7 @@
   const getDelayMs = (baseMs, jitterMs) => baseMs + Math.random() * jitterMs;
 
   const getAtCoderDelayMs = () =>
-    getDelayMs(ATCODER_REQUEST_DELAY_BASEATCODER_REQUEST_DELAY_JITTER_MS);
+    getDelayMs(ATCODER_REQUEST_DELAY_BASE_MS, ATCODER_REQUEST_DELAY_JITTER_MS);
 
   const getNoviStepsDelayMs = () =>
     getDelayMs(
