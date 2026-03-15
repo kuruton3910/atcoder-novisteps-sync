@@ -7,8 +7,8 @@
   const TOAST_DURATION_MS = 4000;
   const TOAST_FADE_DURATION_MS = 250;
   const TOAST_RELOAD_DELAY_MS = 500;
-  const REQUEST_DELAY_BASE_MS = 250;
-  const REQUEST_DELAY_JITTER_MS = 100;
+  const REQUEST_DELAY_BASE_MS = 1000;
+  const REQUEST_DELAY_JITTER_MS = 500;
   const PROBLEMS_UPDATE_PATH = "/problems?/update";
   const ATCODER_SUBMISSIONS_API =
     "https://kenkoooo.com/atcoder/atcoder-api/v3/user/submissions";
